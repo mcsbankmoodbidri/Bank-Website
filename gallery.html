@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1300px; 
+            margin: 30px auto 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           MAIN LAYOUT (Sidebar + Content)
+        ----------------------------------- */
+        .layout-wrapper {
+            width: 100%;
+            max-width: 1300px;
+            margin: 15px auto 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex; 
+            flex-grow: 1;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 300px; 
+            background-color: #fcfcfc;
+            border-right: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            padding: 30px 20px 15px 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 15px;
+            color: #2c3e50;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .tab-button:hover {
+            background-color: #f0f4f8;
+        }
+
+        .tab-button.active {
+            background-color: #eaf2f8;
+            border-left: 4px solid #3498db;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        /* Dynamic Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+
+        /* ----------------------------------
+           GALLERY GRID
+        ----------------------------------- */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px;
+        }
+
+        .grid-img {
+            width: 100%;
+            aspect-ratio: 4 / 3; 
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-color: #f0f0f0; 
+        }
+
+        .grid-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .empty-message {
+            grid-column: 1 / -1;
+            padding: 40px;
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* ----------------------------------
+           FULLSCREEN LIGHTBOX MODAL
+        ----------------------------------- */
+        .lightbox-modal {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.92); 
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 85%;
+            max-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border: 2px solid #333;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s;
+            z-index: 2001;
+        }
+
+        .close-btn:hover {
+            color: #e74c3c;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 30px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 4px;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(0,0,0,0.9);
+        }
+
+        .prev-arrow { left: -70px; }
+        .next-arrow { right: -70px; }
+
+        /* Responsive */
+        @media (max-width: 1000px) { 
+            .photo-grid { grid-template-columns: repeat(3, 1fr); } 
+        }
+        @media (max-width: 850px) {
+            .layout-wrapper {
+                flex-direction: column; 
+                margin: 15px 20px 40px 20px;
+                width: auto;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eaeaea;
+                flex-direction: row; 
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .sidebar-title { display: none; }
+            .tab-button {
+                border-left: none;
+                border-bottom: 4px solid transparent;
+                padding: 15px 20px;
+            }
+            .tab-button.active {
+                border-left: none;
+                border-bottom: 4px solid #3498db;
+            }
+            .main-content { padding: 20px; }
+            .photo-grid { grid-template-columns: repeat(3, 1fr); } 
+            .prev-arrow { left: 0; } 
+            .next-arrow { right: 0; }
+        }
+        @media (max-width: 500px) { 
+            .photo-grid { grid-template-columns: repeat(2, 1fr); } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Photo Gallery</span>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-title">Albums</div>
+            
+            <button class="tab-button active" onclick="loadGallery('moily', this)">Veerappa Moily Visit - 2011</button>
+            <button class="tab-button" onclick="loadGallery('general2023', this)">Sahakara Saptaha - 2023</button>
+        </aside>
+
+        <main class="main-content">
+            <h2 class="gallery-title" id="display-title">Veerappa Moily Visit - 2011</h2>
+            <div class="photo-grid fade-in" id="photoGrid">
+                </div>
+        </main>
+    </div>
+
+    <div class="lightbox-modal" id="lightbox">
+        <button class="close-btn" onclick="closeLightbox()">&times;</button>
+        
+        <div class="lightbox-content">
+            <button class="nav-arrow prev-arrow" onclick="changeImage(-1)">&#10094;</button>
+            <img src="" alt="Fullscreen Image" class="lightbox-img" id="lightboxImg">
+            <button class="nav-arrow next-arrow" onclick="changeImage(1)">&#10095;</button>
+        </div>
+    </div>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        // Generate the paths for the Moily Visit programmatically
+        const moilyImagesArray = [];
+        for (let i = 1; i <= 27; i++) {
+            moilyImagesArray.push(`images/moily_visit/${i}.jpg`);
+        }
+
+        // Generate the paths for the General Body 2023 programmatically
+        const general2023ImagesArray = [];
+        for (let i = 1; i <= 43; i++) {
+            general2023ImagesArray.push(`images/general_body/${i}.jpg`);
+        }
+
+        // Database for the galleries
+        const galleryDatabase = {
+            moily: {
+                title: "Veerappa Moily Visit - 2011",
+                images: moilyImagesArray
+            },
+            general2023: {
+                title: "Sahakara Saptaha - 2023",
+                images: general2023ImagesArray
+            }
+        };
+
+        const gridContainer = document.getElementById('photoGrid');
+        const titleEl = document.getElementById('display-title');
+        
+        // Lightbox variables
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        let currentImgIndex = 0;
+        let currentActiveGallery = []; 
+
+        // Function to load the selected gallery
+        function loadGallery(galleryId, clickedElement) {
+            // Update active state on buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            clickedElement.classList.add('active');
+
+            // Fetch data
+            const data = galleryDatabase[galleryId];
+            currentActiveGallery = data.images;
+
+            // Animate transition
+            gridContainer.classList.remove('fade-in');
+
+            setTimeout(() => {
+                titleEl.textContent = data.title;
+                gridContainer.innerHTML = ''; // Clear current images
+
+                if (currentActiveGallery.length === 0) {
+                    gridContainer.innerHTML = '<div class="empty-message">Images for this event will be uploaded soon.</div>';
+                } else {
+                    // Populate grid
+                    currentActiveGallery.forEach((url, index) => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = url;
+                        imgElement.className = 'grid-img';
+                        imgElement.alt = `${data.title} - Image ${index + 1}`;
+                        
+                        // Pass the index for the lightbox
+                        imgElement.onclick = () => openLightbox(index);
+                        gridContainer.appendChild(imgElement);
+                    });
+                }
+                
+                gridContainer.classList.add('fade-in');
+            }, 10);
+        }
+
+        // Initialize the first gallery on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const firstButton = document.querySelector('.tab-button');
+            loadGallery('moily', firstButton);
+        });
+
+        // --- Lightbox Functions ---
+
+        function openLightbox(index) {
+            currentImgIndex = index;
+            lightboxImg.src = currentActiveGallery[currentImgIndex];
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        function changeImage(directionStep) {
+            if (currentActiveGallery.length === 0) return;
+
+            currentImgIndex += directionStep;
+
+            // Loop around if out of bounds
+            if (currentImgIndex >= currentActiveGallery.length) {
+                currentImgIndex = 0;
+            } else if (currentImgIndex < 0) {
+                currentImgIndex = currentActiveGallery.length - 1;
+            }
+
+            lightboxImg.src = currentActiveGallery[currentImgIndex];
+        }
+
+        // Close modal if background is clicked
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox || e.target === document.querySelector('.lightbox-content')) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') changeImage(1);
+            if (e.key === 'ArrowLeft') changeImage(-1);
+        });
+    </script>
+</body>
+</html>

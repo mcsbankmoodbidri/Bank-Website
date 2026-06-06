@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Statements - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 30px auto 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Layout: Split into Sidebar and Content */
+        .layout-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 15px auto 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex; 
+            flex-grow: 1;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 320px; 
+            background-color: #fcfcfc;
+            border-right: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            padding: 30px 20px 15px 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 15px;
+            color: #2c3e50;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .tab-button:hover {
+            background-color: #f0f4f8;
+        }
+
+        .tab-button.active {
+            background-color: #eaf2f8;
+            border-left: 4px solid #3498db;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        /* Dynamic Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .text-content {
+            padding: 40px;
+        }
+
+        .text-content h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .text-content p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling for Data */
+        .data-table-container h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin: 35px 0 15px 0;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 5px;
+        }
+
+        .data-table-container h3:first-child {
+            margin-top: 0;
+        }
+
+        .data-table-container h4 {
+            color: #34495e;
+            font-size: 15px;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f0f4f8;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .data-table tr:last-child {
+            background-color: #eaf2f8;
+            font-weight: bold;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 850px) {
+            .breadcrumb-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .layout-wrapper {
+                flex-direction: column; 
+                margin: 15px 20px 40px 20px;
+                width: auto;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eaeaea;
+                flex-direction: row; 
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .sidebar-title {
+                display: none; 
+            }
+            .tab-button {
+                border-left: none;
+                border-bottom: 4px solid transparent;
+                padding: 15px 20px;
+            }
+            .tab-button.active {
+                border-left: none;
+                border-bottom: 4px solid #3498db;
+            }
+            .text-content {
+                padding: 25px;
+            }
+            .text-content h2 {
+                font-size: 26px;
+            }
+            .data-table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Financial Statements</span>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-title">Financial Statements</div>
+            
+            <button class="tab-button active" onclick="loadFinancialData('pnl', this)">Trading and Profit & Loss Account</button>
+            <button class="tab-button" onclick="loadFinancialData('balance', this)">Balance Sheet</button>
+        </aside>
+
+        <main class="main-content">
+            <article class="text-content fade-in" id="display-text">
+                <h2 id="display-title">Trading and Profit & Loss Account</h2>
+                <div id="display-paragraphs">
+                    <div class="data-table-container">
+                        <h3>Trading and Profit & Loss A/c as on 31/03/2026 (Date: 03/06/2026)</h3>
+                        
+                        <h4>1. Trading Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Op. Stock</td><td>85.80</td><td>By Sales</td><td>81851.48</td></tr>
+                                <tr><td>To Trading A/C</td><td>26508.00</td><td>By Trading Income</td><td>599182.12</td></tr>
+                                <tr><td>To Gross Profit</td><td>654525.60</td><td>By Cl. Stock</td><td>85.80</td></tr>
+                                <tr><td>Total</td><td>681119.40</td><td>Total</td><td>681119.40</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h4>2. Profit and Loss Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Court Costs</td><td>43017.00</td><td>By Gross Profit</td><td>654525.60</td></tr>
+                                <tr><td>To Advertisement A/c</td><td>295500.80</td><td>By Books & Forms (Recived)</td><td>4493377.00</td></tr>
+                                <tr><td>To Books & Forms</td><td>627529.58</td><td>By Interest A/c (Investments)</td><td>111245274.00</td></tr>
+                                <tr><td>To G.B.Expences</td><td>2976336.50</td><td>By Interest A/c (Loans)</td><td>426716028.56</td></tr>
+                                <tr><td>To Meeting Expenses</td><td>823210.89</td><td>By Pnl. Interest A/c</td><td>7066672.00</td></tr>
+                                <tr><td>To Sahakari Saptaha & Other Visits</td><td>1385710.10</td><td>By Int.On Income Tax Return</td><td>345390.00</td></tr>
+                                <tr><td>To Misc. Expenses</td><td>298784.34</td><td>By Share Fee</td><td>140883.00</td></tr>
+                                <tr><td>To Misc.Expences (Computer)</td><td>260401.21</td><td>By Entry Fee</td><td>103642.00</td></tr>
+                                <tr><td>To Prathibha Puraskara</td><td>495600.00</td><td>By Dividend Recived on Shares</td><td>2228840.00</td></tr>
+                                <tr><td>To Sitting Fees</td><td>57200.00</td><td>By Misc. Income</td><td>357147.00</td></tr>
+                                <tr><td>To Audit Fees 2024-2025</td><td>1198000.00</td><td></td><td></td></tr>
+                                <tr><td>To Bank Charges (RTGS & Others)</td><td>20146.63</td><td></td><td></td></tr>
+                                <tr><td>To NPA 2024-25</td><td>11334349.00</td><td></td><td></td></tr>
+                                <tr><td>To Insurence Charges (Paid)</td><td>1091135.00</td><td></td><td></td></tr>
+                                <tr><td>To Interest A/c (Paid)</td><td>388518613.97</td><td></td><td></td></tr>
+                                <tr><td>To News Paper & Megazines</td><td>28639.00</td><td></td><td></td></tr>
+                                <tr><td>To Pooja Expences</td><td>200500.00</td><td></td><td></td></tr>
+                                <tr><td>To Repairs & Maintenance</td><td>693444.16</td><td></td><td></td></tr>
+                                <tr><td>To Wages & Other Charges</td><td>2266295.42</td><td></td><td></td></tr>
+                                <tr><td>To Electricity & Genrator Maintanac</td><td>600675.00</td><td></td><td></td></tr>
+                                <tr><td>To Notice Charges (Paid)</td><td>137817.00</td><td></td><td></td></tr>
+                                <tr><td>To Salary A/C</td><td>20466333.00</td><td></td><td></td></tr>
+                                <tr><td>To Pension A/c</td><td>24000.00</td><td></td><td></td></tr>
+                                <tr><td>To T.A A/C</td><td>440895.00</td><td></td><td></td></tr>
+                                <tr><td>To Muncipal Taxes etc</td><td>109172.00</td><td></td><td></td></tr>
+                                <tr><td>To Telephone Charges</td><td>215787.00</td><td></td><td></td></tr>
+                                <tr><td>To GST Paid Expences</td><td>349550.00</td><td></td><td></td></tr>
+                                <tr><td>To Depriciation On Computer</td><td>98563.00</td><td></td><td></td></tr>
+                                <tr><td>To Depriciation On Furniture</td><td>292003.00</td><td></td><td></td></tr>
+                                <tr><td>To Provision For SCDCC DL 2024-25</td><td>13745651.00</td><td></td><td></td></tr>
+                                <tr><td>To Net Profit</td><td>104256919.56</td><td></td><td></td></tr>
+                                <tr><td>Grand Total</td><td>553351779.16</td><td>Grand Total</td><td>553351779.16</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Trading and Profit & Loss A/c as on 31/03/2025 (Date: 03/06/2026)</h3>
+                        
+                        <h4>1. Trading Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Op. Stock</td><td>85.80</td><td>By Sales</td><td>191552.56</td></tr>
+                                <tr><td>To Trading A/C</td><td>43749.00</td><td>By Trading Income</td><td>1234701.35</td></tr>
+                                <tr><td>To Gross Profit</td><td>1382504.91</td><td>By Cl. Stock</td><td>85.80</td></tr>
+                                <tr><td>Total</td><td>1426339.71</td><td>Total</td><td>1426339.71</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h4>2. Profit and Loss Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Court Costs Arbitration</td><td>347490.00</td><td>By Gross Profit</td><td>1382504.91</td></tr>
+                                <tr><td>To Advertisement A/c</td><td>499087.50</td><td>By Books & Forms (Recived)</td><td>3993475.00</td></tr>
+                                <tr><td>To Books & Forms</td><td>554499.80</td><td>By Interest A/c (Investments)</td><td>62768105.00</td></tr>
+                                <tr><td>To G.B.Expences</td><td>3403500.00</td><td>By Interest A/c (Loans)</td><td>597188846.97</td></tr>
+                                <tr><td>To Meeting Expenses</td><td>1063329.00</td><td>By Int on Saving Bank in Other Bank</td><td>593480.00</td></tr>
+                                <tr><td>To Sahakari Saptaha & Other Visits</td><td>1812888.16</td><td>By Pnl. Interest A/c</td><td>11409561.00</td></tr>
+                                <tr><td>To Misc. Expenses</td><td>262198.00</td><td>By Int on Income Tax Return</td><td>498950.00</td></tr>
+                                <tr><td>To Misc.Expences (Computer)</td><td>281182.11</td><td>By Share Fee</td><td>87496.00</td></tr>
+                                <tr><td>To Prathibha Puraskara</td><td>496468.00</td><td>By Entry Fee</td><td>76204.00</td></tr>
+                                <tr><td>To Sitting Fees</td><td>54600.00</td><td>By Dividend Recived on Shares</td><td>7907048.00</td></tr>
+                                <tr><td>To Audit Fees 2025-26</td><td>1811700.00</td><td>By Misc. Income</td><td>434089.00</td></tr>
+                                <tr><td>To Bank Charges (RTGS & Others)</td><td>15255.17</td><td></td><td></td></tr>
+                                <tr><td>To NPA 2024-25</td><td>21000000.00</td><td></td><td></td></tr>
+                                <tr><td>To Insurence Charges (Paid)</td><td>1319522.00</td><td></td><td></td></tr>
+                                <tr><td>To Interest A/c (Paid)</td><td>502101226.72</td><td></td><td></td></tr>
+                                <tr><td>To News Paper & Megazines</td><td>36055.00</td><td></td><td></td></tr>
+                                <tr><td>To Pooja Expences</td><td>185729.00</td><td></td><td></td></tr>
+                                <tr><td>To Repairs & Maintenance</td><td>443520.59</td><td></td><td></td></tr>
+                                <tr><td>To Wages & Other Charges</td><td>1934144.00</td><td></td><td></td></tr>
+                                <tr><td>To Electricity & Genrator Maintanac</td><td>539579.94</td><td></td><td></td></tr>
+                                <tr><td>To Notice Charges (Paid)</td><td>150822.00</td><td></td><td></td></tr>
+                                <tr><td>To Salary A/C</td><td>21908723.00</td><td></td><td></td></tr>
+                                <tr><td>To Pension A/c</td><td>23000.00</td><td></td><td></td></tr>
+                                <tr><td>To T.A A/C</td><td>432360.00</td><td></td><td></td></tr>
+                                <tr><td>To Muncipal Taxes etc</td><td>90654.00</td><td></td><td></td></tr>
+                                <tr><td>To Telephone Charges</td><td>182395.00</td><td></td><td></td></tr>
+                                <tr><td>To GST Paid Expences</td><td>320000.00</td><td></td><td></td></tr>
+                                <tr><td>To Depriciation On Computer</td><td>99999.98</td><td></td><td></td></tr>
+                                <tr><td>To Net Profit</td><td>124969830.91</td><td></td><td></td></tr>
+                                <tr><td>Grand Total</td><td>686339759.88</td><td>Grand Total</td><td>686339759.88</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+    
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        // Database for the financial sections
+        const financialDatabase = {
+            pnl: {
+                title: "Trading and Profit & Loss Account",
+                paragraphs: `
+                    <div class="data-table-container">
+                        <h3>Trading and Profit & Loss A/c as on 31/03/2026 (Date: 03/06/2026)</h3>
+                        
+                        <h4>1. Trading Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Op. Stock</td><td>85.80</td><td>By Sales</td><td>81851.48</td></tr>
+                                <tr><td>To Trading A/C</td><td>26508.00</td><td>By Trading Income</td><td>599182.12</td></tr>
+                                <tr><td>To Gross Profit</td><td>654525.60</td><td>By Cl. Stock</td><td>85.80</td></tr>
+                                <tr><td>Total</td><td>681119.40</td><td>Total</td><td>681119.40</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h4>2. Profit and Loss Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Court Costs</td><td>43017.00</td><td>By Gross Profit</td><td>654525.60</td></tr>
+                                <tr><td>To Advertisement A/c</td><td>295500.80</td><td>By Books & Forms (Recived)</td><td>4493377.00</td></tr>
+                                <tr><td>To Books & Forms</td><td>627529.58</td><td>By Interest A/c (Investments)</td><td>111245274.00</td></tr>
+                                <tr><td>To G.B.Expences</td><td>2976336.50</td><td>By Interest A/c (Loans)</td><td>426716028.56</td></tr>
+                                <tr><td>To Meeting Expenses</td><td>823210.89</td><td>By Pnl. Interest A/c</td><td>7066672.00</td></tr>
+                                <tr><td>To Sahakari Saptaha & Other Visits</td><td>1385710.10</td><td>By Int.On Income Tax Return</td><td>345390.00</td></tr>
+                                <tr><td>To Misc. Expenses</td><td>298784.34</td><td>By Share Fee</td><td>140883.00</td></tr>
+                                <tr><td>To Misc.Expences (Computer)</td><td>260401.21</td><td>By Entry Fee</td><td>103642.00</td></tr>
+                                <tr><td>To Prathibha Puraskara</td><td>495600.00</td><td>By Dividend Recived on Shares</td><td>2228840.00</td></tr>
+                                <tr><td>To Sitting Fees</td><td>57200.00</td><td>By Misc. Income</td><td>357147.00</td></tr>
+                                <tr><td>To Audit Fees 2024-2025</td><td>1198000.00</td><td></td><td></td></tr>
+                                <tr><td>To Bank Charges (RTGS & Others)</td><td>20146.63</td><td></td><td></td></tr>
+                                <tr><td>To NPA 2024-25</td><td>11334349.00</td><td></td><td></td></tr>
+                                <tr><td>To Insurence Charges (Paid)</td><td>1091135.00</td><td></td><td></td></tr>
+                                <tr><td>To Interest A/c (Paid)</td><td>388518613.97</td><td></td><td></td></tr>
+                                <tr><td>To News Paper & Megazines</td><td>28639.00</td><td></td><td></td></tr>
+                                <tr><td>To Pooja Expences</td><td>200500.00</td><td></td><td></td></tr>
+                                <tr><td>To Repairs & Maintenance</td><td>693444.16</td><td></td><td></td></tr>
+                                <tr><td>To Wages & Other Charges</td><td>2266295.42</td><td></td><td></td></tr>
+                                <tr><td>To Electricity & Genrator Maintanac</td><td>600675.00</td><td></td><td></td></tr>
+                                <tr><td>To Notice Charges (Paid)</td><td>137817.00</td><td></td><td></td></tr>
+                                <tr><td>To Salary A/C</td><td>20466333.00</td><td></td><td></td></tr>
+                                <tr><td>To Pension A/c</td><td>24000.00</td><td></td><td></td></tr>
+                                <tr><td>To T.A A/C</td><td>440895.00</td><td></td><td></td></tr>
+                                <tr><td>To Muncipal Taxes etc</td><td>109172.00</td><td></td><td></td></tr>
+                                <tr><td>To Telephone Charges</td><td>215787.00</td><td></td><td></td></tr>
+                                <tr><td>To GST Paid Expences</td><td>349550.00</td><td></td><td></td></tr>
+                                <tr><td>To Depriciation On Computer</td><td>98563.00</td><td></td><td></td></tr>
+                                <tr><td>To Depriciation On Furniture</td><td>292003.00</td><td></td><td></td></tr>
+                                <tr><td>To Provision For SCDCC DL 2024-25</td><td>13745651.00</td><td></td><td></td></tr>
+                                <tr><td>To Net Profit</td><td>104256919.56</td><td></td><td></td></tr>
+                                <tr><td>Grand Total</td><td>553351779.16</td><td>Grand Total</td><td>553351779.16</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Trading and Profit & Loss A/c as on 31/03/2025 (Date: 03/06/2026)</h3>
+                        
+                        <h4>1. Trading Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Op. Stock</td><td>85.80</td><td>By Sales</td><td>191552.56</td></tr>
+                                <tr><td>To Trading A/C</td><td>43749.00</td><td>By Trading Income</td><td>1234701.35</td></tr>
+                                <tr><td>To Gross Profit</td><td>1382504.91</td><td>By Cl. Stock</td><td>85.80</td></tr>
+                                <tr><td>Total</td><td>1426339.71</td><td>Total</td><td>1426339.71</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h4>2. Profit and Loss Account</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Particulars</th><th>Debit</th><th>Particulars</th><th>Credit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>To Court Costs Arbitration</td><td>347490.00</td><td>By Gross Profit</td><td>1382504.91</td></tr>
+                                <tr><td>To Advertisement A/c</td><td>499087.50</td><td>By Books & Forms (Recived)</td><td>3993475.00</td></tr>
+                                <tr><td>To Books & Forms</td><td>554499.80</td><td>By Interest A/c (Investments)</td><td>62768105.00</td></tr>
+                                <tr><td>To G.B.Expences</td><td>3403500.00</td><td>By Interest A/c (Loans)</td><td>597188846.97</td></tr>
+                                <tr><td>To Meeting Expenses</td><td>1063329.00</td><td>By Int on Saving Bank in Other Bank</td><td>593480.00</td></tr>
+                                <tr><td>To Sahakari Saptaha & Other Visits</td><td>1812888.16</td><td>By Pnl. Interest A/c</td><td>11409561.00</td></tr>
+                                <tr><td>To Misc. Expenses</td><td>262198.00</td><td>By Int on Income Tax Return</td><td>498950.00</td></tr>
+                                <tr><td>To Misc.Expences (Computer)</td><td>281182.11</td><td>By Share Fee</td><td>87496.00</td></tr>
+                                <tr><td>To Prathibha Puraskara</td><td>496468.00</td><td>By Entry Fee</td><td>76204.00</td></tr>
+                                <tr><td>To Sitting Fees</td><td>54600.00</td><td>By Dividend Recived on Shares</td><td>7907048.00</td></tr>
+                                <tr><td>To Audit Fees 2025-26</td><td>1811700.00</td><td>By Misc. Income</td><td>434089.00</td></tr>
+                                <tr><td>To Bank Charges (RTGS & Others)</td><td>15255.17</td><td></td><td></td></tr>
+                                <tr><td>To NPA 2024-25</td><td>21000000.00</td><td></td><td></td></tr>
+                                <tr><td>To Insurence Charges (Paid)</td><td>1319522.00</td><td></td><td></td></tr>
+                                <tr><td>To Interest A/c (Paid)</td><td>502101226.72</td><td></td><td></td></tr>
+                                <tr><td>To News Paper & Megazines</td><td>36055.00</td><td></td><td></td></tr>
+                                <tr><td>To Pooja Expences</td><td>185729.00</td><td></td><td></td></tr>
+                                <tr><td>To Repairs & Maintenance</td><td>443520.59</td><td></td><td></td></tr>
+                                <tr><td>To Wages & Other Charges</td><td>1934144.00</td><td></td><td></td></tr>
+                                <tr><td>To Electricity & Genrator Maintanac</td><td>539579.94</td><td></td><td></td></tr>
+                                <tr><td>To Notice Charges (Paid)</td><td>150822.00</td><td></td><td></td></tr>
+                                <tr><td>To Salary A/C</td><td>21908723.00</td><td></td><td></td></tr>
+                                <tr><td>To Pension A/c</td><td>23000.00</td><td></td><td></td></tr>
+                                <tr><td>To T.A A/C</td><td>432360.00</td><td></td><td></td></tr>
+                                <tr><td>To Muncipal Taxes etc</td><td>90654.00</td><td></td><td></td></tr>
+                                <tr><td>To Telephone Charges</td><td>182395.00</td><td></td><td></td></tr>
+                                <tr><td>To GST Paid Expences</td><td>320000.00</td><td></td><td></td></tr>
+                                <tr><td>To Depriciation On Computer</td><td>99999.98</td><td></td><td></td></tr>
+                                <tr><td>To Net Profit</td><td>124969830.91</td><td></td><td></td></tr>
+                                <tr><td>Grand Total</td><td>686339759.88</td><td>Grand Total</td><td>686339759.88</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            balance: {
+                title: "Balance Sheet",
+                paragraphs: `
+                    <div class="data-table-container">
+                        <h3>Balance Sheet as on 31/03/2026 (Date: 03/06/2026)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Particulars</th>
+                                    <th>Debit</th>
+                                    <th>Particulars</th>
+                                    <th>Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Share Capital</td><td>227521100.00</td><td>Cash</td><td>8776191.00</td></tr>
+                                <tr><td>Reserve Fund</td><td>712931931.18</td><td>Bank</td><td>184910155.20</td></tr>
+                                <tr><td>Other Funds</td><td>105747830.11</td><td>Investments On Deposits</td><td>758895354.76</td></tr>
+                                <tr><td>Depriciation Fund</td><td>25329513.67</td><td>Investments On Shares</td><td>82126000.00</td></tr>
+                                <tr><td>Deposits</td><td>5721691657.45</td><td>Loans & Advances</td><td>6259014977.42</td></tr>
+                                <tr><td>Staff Deposit</td><td>5438732.00</td><td>Suspense Assets</td><td>7164846.15</td></tr>
+                                <tr><td>Suspense Liabilities</td><td>12936414.62</td><td>Fixed Assets</td><td>25376547.61</td></tr>
+                                <tr><td>Provision Fund (Others)</td><td>392663248.00</td><td>Staff Loan</td><td>2966100.00</td></tr>
+                                <tr><td>Net Profit</td><td>124969830.91</td><td>Closing Stock</td><td>85.80</td></tr>
+                                <tr><td>Grand Total</td><td>7329230257.94</td><td>Grand Total</td><td>7329230257.94</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Balance Sheet as on 31/03/2025 (Date: 03/06/2026)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Particulars</th>
+                                    <th>Debit</th>
+                                    <th>Particulars</th>
+                                    <th>Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Share Capital</td><td>221687500.00</td><td>Cash</td><td>4097196.00</td></tr>
+                                <tr><td>Reserve Fund</td><td>665972128.42</td><td>Bank</td><td>97105656.79</td></tr>
+                                <tr><td>Other Funds</td><td>104625711.92</td><td>Investments On Deposits</td><td>1129757129.76</td></tr>
+                                <tr><td>Depriciation Fund</td><td>25229513.69</td><td>Investments On Shares</td><td>82122000.00</td></tr>
+                                <tr><td>Deposits</td><td>5302804524.82</td><td>Loans & Advances</td><td>5715947074.39</td></tr>
+                                <tr><td>Staff Deposit</td><td>7470256.00</td><td>Suspense Assets</td><td>10081688.34</td></tr>
+                                <tr><td>Suspense Liabilities</td><td>347389742.40</td><td>Fixed Assets</td><td>25229513.73</td></tr>
+                                <tr><td>Provision Fund (Others)</td><td>287913248.00</td><td>Staff Loan</td><td>3009200.00</td></tr>
+                                <tr><td>Net Profit</td><td>104256919.56</td><td>Closing Stock</td><td>85.80</td></tr>
+                                <tr><td>Grand Total</td><td>7067349544.81</td><td>Grand Total</td><td>7067349544.81</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            }
+        };
+
+        function loadFinancialData(dataType, clickedElement) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            clickedElement.classList.add('active');
+
+            // Fetch the corresponding data
+            const data = financialDatabase[dataType];
+
+            // Get the DOM elements to update
+            const titleEl = document.getElementById('display-title');
+            const parasEl = document.getElementById('display-paragraphs');
+            const textContainer = document.getElementById('display-text');
+
+            // Remove animation class
+            textContainer.classList.remove('fade-in');
+
+            // Small timeout to allow the browser to register the class removal
+            // then update content and re-apply animation
+            setTimeout(() => {
+                titleEl.textContent = data.title;
+                parasEl.innerHTML = data.paragraphs;
+                textContainer.classList.add('fade-in');
+            }, 10); 
+        }
+    </script>
+</body>
+</html>

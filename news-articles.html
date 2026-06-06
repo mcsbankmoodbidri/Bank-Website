@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Updates - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 600px; /* Matching the news feed width */
+            margin: 30px auto 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           COMPACT NEWS FEED LAYOUT
+        ----------------------------------- */
+        .news-page-wrapper {
+            width: 100%;
+            max-width: 600px; 
+            margin: 15px auto 60px auto; /* Adjusted top margin for breadcrumb */
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        /* Individual News Card */
+        .news-article {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .news-article:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        /* The Smaller Image */
+        .news-image {
+            width: 100%;
+            height: 250px; 
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Single Line Content Area */
+        .news-content {
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .news-description {
+            color: #2c3e50;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            /* Ensures it stays as a clean single line on most devices */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .breadcrumb-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .news-image {
+                height: 200px; 
+            }
+            .news-description {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">News</span>
+    </div>
+
+    <main class="news-page-wrapper">
+
+        <article class="news-article">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80" alt="New Branch Opening" class="news-image">
+            <div class="news-content">
+                <p class="news-description">MCS Bank inaugurated its newest state-of-the-art branch this week.</p>
+            </div>
+        </article>
+
+        <article class="news-article">
+            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80" alt="Farmers Support Initiative" class="news-image">
+            <div class="news-content">
+                <p class="news-description">Launch of the 'Kisan Samriddhi' agricultural support and loan initiative.</p>
+            </div>
+        </article>
+
+        <article class="news-article">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" alt="Annual General Meeting" class="news-image">
+            <div class="news-content">
+                <p class="news-description">The 45th Annual General Meeting concluded with record shareholder participation.</p>
+            </div>
+        </article>
+
+        <article class="news-article">
+            <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=800&q=80" alt="Digital Banking Launch" class="news-image">
+            <div class="news-content">
+                <p class="news-description">Introducing our completely revamped, secure mobile banking application.</p>
+            </div>
+        </article>
+        
+        <article class="news-article">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Community Event" class="news-image">
+            <div class="news-content">
+                <p class="news-description">MCS Bank sponsors the local district educational awareness drive.</p>
+            </div>
+        </article>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+</body>
+</html>

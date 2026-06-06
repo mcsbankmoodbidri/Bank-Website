@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Schemes - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html, body {
+            max-width: 100vw;
+            overflow-x: clip; 
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 20px auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           MAIN LAYOUT
+        ----------------------------------- */
+        .page-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 80px auto;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .schemes-wrapper {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        /* LEFT SIDE: Schemes List */
+        .schemes-list-container {
+            flex: 1;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .schemes-list-container h3 {
+            color: #1a5276;
+            font-size: 22px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .schemes-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .schemes-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 17px;
+            color: #2c3e50;
+            font-weight: 500;
+            padding: 15px 20px;
+            background-color: #f9fbf9;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .schemes-list li:hover {
+            transform: translateX(8px);
+            background-color: #eaf2f8;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-left-color: #f39c12;
+        }
+
+        .scheme-icon {
+            width: 24px;
+            height: 24px;
+            color: #3498db;
+            flex-shrink: 0;
+        }
+
+        .schemes-list li:hover .scheme-icon {
+            color: #f39c12;
+        }
+
+        /* RIGHT SIDE: Image Carousel */
+        .schemes-carousel-container {
+            flex: 1.2;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            background-color: #2c3e50;
+            aspect-ratio: 720 / 442; 
+        }
+
+        .slider {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            overflow-y: hidden; /* FIX: Locks the vertical axis to prevent bouncing/scrolling */
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
+
+        .slider::-webkit-scrollbar {
+            display: none; 
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center; 
+            -webkit-user-drag: none; /* FIX: Stops desktop browsers from dragging the image file */
+            user-select: none;       /* FIX: Prevents accidental text-highlighting behavior */
+        }
+
+        /* Slide Overlay Title */
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px 30px 30px 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Slider Navigation Dots */
+        .slider-nav {
+            position: absolute;
+            bottom: 25px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background-color: #f39c12;
+            transform: scale(1.3);
+        }
+
+        /* ----------------------------------
+           MOBILE RESPONSIVENESS
+        ----------------------------------- */
+        @media (max-width: 950px) {
+            .schemes-wrapper {
+                flex-direction: column;
+            }
+            .schemes-list-container {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-container, .breadcrumb-container {
+                padding: 0 20px;
+            }
+            .page-header {
+                font-size: 26px;
+            }
+            .schemes-list li {
+                font-size: 15px;
+                padding: 12px 15px;
+            }
+            .slide-caption {
+                font-size: 18px;
+                padding: 30px 20px 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Special Schemes</span>
+    </div>
+
+    <main class="page-container">
+        
+        <h1 class="page-header">Special Schemes</h1>
+
+        <div class="schemes-wrapper">
+            
+            <div class="schemes-list-container">
+                <h3>Key Initiatives & Subsidies</h3>
+                <ul class="schemes-list">
+                    <li onclick="scrollToSlide(0)">
+                        <svg class="scheme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                        </svg>
+                        Rain Water Harvesting
+                    </li>
+                    <li onclick="scrollToSlide(1)">
+                        <svg class="scheme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        Solar Grid
+                    </li>
+                    <li onclick="scrollToSlide(2)">
+                        <svg class="scheme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        Dialysis Facility
+                    </li>
+                    <li onclick="scrollToSlide(3)">
+                        <svg class="scheme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                        </svg>
+                        Ventilator Facility
+                    </li>
+                    <li onclick="scrollToSlide(4)">
+                        <svg class="scheme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="7" cy="16" r="3"></circle>
+                            <circle cx="17" cy="16" r="3"></circle>
+                            <path d="M14 16H10"></path>
+                            <path d="M4 16H3V9h4v7"></path>
+                            <path d="M7 9l3-4h7v11"></path>
+                        </svg>
+                        0% Interest to Purchase Tractor, Power Tiller etc.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="schemes-carousel-container">
+                <div class="slider" id="schemesSlider">
+                    <div class="slide">
+                        <img src="images/special_schemes/rain.webp" width="720" height="442" alt="Rain Water Harvesting">
+                    </div>
+                    <div class="slide">
+                        <img src="images/special_schemes/solar.webp" width="720" height="442" alt="Solar Grid">
+                    </div>
+                    <div class="slide">
+                        <img src="images/special_schemes/dialysis.webp" width="720" height="442" alt="Dialysis Support">
+                    </div>
+                    <div class="slide">
+                        <img src="images/special_schemes/ventilator.webp" width="720" height="442" alt="Ventilator Facilities">
+                    </div>
+                    <div class="slide">
+                        <img src="images/special_schemes/tractor.webp" width="720" height="442" alt="Agriculture Machinery">
+                    </div>
+                </div>
+
+                <div class="slider-nav">
+                    <div class="nav-dot active" onclick="scrollToSlide(0)"></div>
+                    <div class="nav-dot" onclick="scrollToSlide(1)"></div>
+                    <div class="nav-dot" onclick="scrollToSlide(2)"></div>
+                    <div class="nav-dot" onclick="scrollToSlide(3)"></div>
+                    <div class="nav-dot" onclick="scrollToSlide(4)"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        // Carousel Logic
+        const slider = document.getElementById('schemesSlider');
+        const dots = document.querySelectorAll('.nav-dot');
+        let currentSlide = 0;
+        const totalSlides = dots.length;
+        let autoSlideTimer;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides; 
+            triggerScroll(currentSlide);
+        }
+
+        function startAutoSlide() {
+            autoSlideTimer = setInterval(nextSlide, 3500); // Scrolls every 3.5 seconds
+        }
+
+        function triggerScroll(index) {
+            const slideWidth = slider.clientWidth;
+            slider.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
+        }
+
+        function scrollToSlide(index) {
+            currentSlide = index;
+            triggerScroll(index);
+            clearInterval(autoSlideTimer);
+            startAutoSlide(); // Reset timer on manual click
+        }
+
+        slider.addEventListener('scroll', () => {
+            const scrollPosition = slider.scrollLeft;
+            const slideWidth = slider.clientWidth;
+            // Calculate active slide based on scroll position
+            const activeIndex = Math.round(scrollPosition / slideWidth);
+            currentSlide = activeIndex;
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === activeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        });
+
+        // Initialize Auto Slide
+        startAutoSlide();
+    </script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalpavriksha Aarogya Card - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           SPLIT PAGE LAYOUT
+        ----------------------------------- */
+        .page-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 80px auto; /* Adjusted top margin for breadcrumb */
+            padding: 0 40px;
+            flex-grow: 1;
+        }
+
+        .layout-flex {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        /* LEFT SIDE: Main Description */
+        .main-content {
+            flex: 1.6;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .text-body {
+            padding: 40px;
+        }
+
+        .text-body h2 {
+            color: #2a5d2b;
+            font-size: 32px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .text-body p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .text-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* RIGHT SIDE: Important Notice Box */
+        .sidebar-note-wrapper {
+            flex: 1;
+            position: sticky;
+            top: 120px; /* Sticks to the screen as you scroll */
+        }
+
+        .notice-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-top: 5px solid #e74c3c; /* Red border to indicate importance */
+            overflow: hidden;
+        }
+
+        .notice-header {
+            background-color: #fdf5f4; /* Very light red background for the title */
+            padding: 20px 25px;
+            border-bottom: 1px solid #fbe7e5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notice-header svg {
+            color: #e74c3c;
+        }
+
+        .notice-header h3 {
+            color: #c0392b;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .notice-body {
+            padding: 25px;
+        }
+
+        .important-list {
+            list-style-type: none; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .important-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 16px;
+            font-size: 14.5px;
+            color: #444;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .important-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Custom Bullet Point */
+        .important-list li::before {
+            content: "■";
+            color: #e74c3c; 
+            font-size: 12px;
+            position: absolute;
+            left: 0;
+            top: 3px; 
+        }
+
+        /* Responsive Design Updates */
+        @media (max-width: 950px) {
+            .page-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .layout-flex {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .sidebar-note-wrapper {
+                position: relative;
+                top: 0;
+                width: 100%;
+            }
+            .hero-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="page-container">
+        
+        <div class="breadcrumb-container">
+            <a href="index.html" class="breadcrumb-home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Home
+            </a>
+            <span class="breadcrumb-separator">❯</span>
+            <span class="breadcrumb-current">Kalpavriksha Aarogya Card</span>
+        </div>
+
+        <div class="layout-flex">
+            <div class="main-content">
+                <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1200&q=80" alt="Medical Health Care" class="hero-image">
+                
+                <div class="text-body">
+                    <h2>Kalpavriksha Aarogya Card</h2>
+                    <p>Health is your greatest wealth. At MCS Bank, we are deeply committed to the well-being and security of our community members. The Kalpavriksha Aarogya Card is our premier health initiative designed to provide substantial financial relief during critical medical emergencies.</p>
+                    
+                    <p>Medical emergencies can strike without warning, often bringing significant financial strain alongside emotional stress. By subscribing to the Aarogya Card, our members secure a vital safety net that helps cover the heavy costs associated with surgical procedures and hospitalizations.</p>
+                    
+                    <p>We have partnered with a vast network of healthcare providers to ensure that you receive the best possible care, wherever you are in the country. Our streamlined claim settlement process guarantees that the focus remains entirely on recovery, rather than financial burdens.</p>
+                </div>
+            </div>
+
+            <aside class="sidebar-note-wrapper">
+                <div class="notice-card">
+                    <div class="notice-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <h3>Important Guidelines</h3>
+                    </div>
+                    
+                    <div class="notice-body">
+                        <ul class="important-list">
+                            <li>This scheme is limited to 'A' class members of the association.</li>
+                            <li>The fee to be paid to get a health card is Rs. 1000.</li>
+                            <li>This facility is limited to surgery only.</li>
+                            <li>You can get treatment at any hospital inside the country.</li>
+                            <li>A fixed package for various diseases will be paid by the Sangha.</li>
+                            <li>Original bills and Discharge summary are required.</li>
+                            <li>Max benefit per year is 2 Lakhs only.</li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+</body>
+</html>

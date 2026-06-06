@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facilities & Initiatives - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Page Layout */
+        .page-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 15px auto 80px auto; /* Adjusted top margin for breadcrumb */
+            padding: 0 40px;
+            flex-grow: 1;
+        }
+
+        /* Facilities Grid Layout */
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        /* Individual Category Cards */
+        .facility-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-top: 5px solid #3498db;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .facility-card.green { border-color: #2ecc71; }
+        .facility-card.orange { border-color: #f39c12; }
+        .facility-card.purple { border-color: #9b59b6; }
+        .facility-card.red { border-color: #e74c3c; }
+        .facility-card.teal { border-color: #1abc9c; }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .card-header h2 {
+            font-size: 22px;
+            color: #2c3e50;
+        }
+
+        /* List Styling */
+        .facility-list {
+            list-style-type: none;
+        }
+
+        .facility-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .facility-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .facility-list li::before {
+            content: "•";
+            color: #3498db;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .facility-card.green .facility-list li::before { color: #2ecc71; }
+        .facility-card.orange .facility-list li::before { color: #f39c12; }
+        .facility-card.purple .facility-list li::before { color: #9b59b6; }
+        .facility-card.red .facility-list li::before { color: #e74c3c; }
+        .facility-card.teal .facility-list li::before { color: #1abc9c; }
+
+        /* Responsive Design */
+        @media (max-width: 950px) {
+            .breadcrumb-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .page-container {
+                padding: 0 20px;
+            }
+            .facilities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .facility-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Facilities</span>
+    </div>
+
+    <main class="page-container">
+
+        <div class="facilities-grid">
+
+            <div class="facility-card">
+                <div class="card-header">
+                    <h2>Modern Infrastructure & Security</h2>
+                </div>
+                <ul class="facility-list">
+                    <li>Well-furnished, spacious building with adequate seating, ventilation, and light to facilitate stress-free dealings with customers.</li>
+                    <li>The building covers an area of about 25,000 square feet across 4 floors, with all sections fully air-conditioned.</li>
+                    <li>A modern lift facility has been installed for the convenience of all members.</li>
+                    <li>The Ground Floor is dedicated to vehicle parking for the convenience of customers.</li>
+                    <li>From a security perspective, the bank is protected by a complete CC camera system, installed sirens, and night security guards.</li>
+                    <li>A note-counting machine and a fake note detection machine have been installed for customer convenience.</li>
+                    <li>A highly secure, separate safe locker system is available for customers.</li>
+                </ul>
+            </div>
+
+            <div class="facility-card green">
+                <div class="card-header">
+                    <h2>Agricultural & Farmer Support</h2>
+                </div>
+                <ul class="facility-list">
+                    <li>Agricultural chemical fertilizers are distributed to farmer customers on loan for a period of one month.</li>
+                    <li>Loan facility at 0% interest rate available for agriculture purpose loans (power tillers, tractors, grass-cutting machines, etc.).</li>
+                    <li>A program recognizing and honoring the 4 best farmers in the field has been successfully running for the past ten years.</li>
+                    <li>Under the Farmers' Pension Scheme, a monthly pension of Rs. 1,000 is provided to eligible farmers.</li>
+                    <li>Special Information Camps and Workshops are organized every month for the educational benefit of farmers.</li>
+                    <li>The system provides crop loans through the farmers' revolving scheme.</li>
+                </ul>
+            </div>
+
+            <div class="facility-card orange">
+                <div class="card-header">
+                    <h2>Financial & Member Benefits</h2>
+                </div>
+                <ul class="facility-list">
+                    <li>A 25% dividend has been consistently given to the members of the bank for the last 20 years.</li>
+                    <li>All families residing in Moodbidire - Pranthya and Marpadi village hold membership with this bank.</li>
+                    <li>A loan facility at a 5% interest rate is available for bank members to adopt solar water heaters and solar lights.</li>
+                    <li>Education loans are provided to bank members for their children's education at a 10% interest rate.</li>
+                    <li>Members who pay loan installments on time are given a 1% discount on interest (Exceptions apply).</li>
+                    <li>Remarkably, 90% loan recovery has been achieved without any legal action or court involvement.</li>
+                    <li>Complete waiver of overdue interest on all loans was enacted as part of the Centenary celebrations.</li>
+                </ul>
+            </div>
+
+            <div class="facility-card purple">
+                <div class="card-header">
+                    <h2>Health & Welfare Initiatives</h2>
+                </div>
+                <ul class="facility-list">
+                    <li>Medical assistance scheme of Rs. 15,000 is available for members suffering from kidney problems, heart problems, cancer, etc.</li>
+                    <li>Dialysis facilities are available through Alva's Health Center at special concessional rates for members and their dependents.</li>
+                    <li>Upon the death of a bank member, a scheme provides Rs. 12,000 from the death fund to their heirs.</li>
+                    <li>All bank members and their families are registered under the State Government's Yashasvini Vima Yojana.</li>
+                    <li>Mediclaim and accident insurance arrangements are actively maintained for all bank employees and Pigmy collectors.</li>
+                    <li>In memory of the Centenary year, 2 Ventilators and 1 Dialysis Machine were donated to Alva's Hospital.</li>
+                </ul>
+            </div>
+
+            <div class="facility-card red">
+                <div class="card-header">
+                    <h2>Community & Social Impact</h2>
+                </div>
+                <ul class="facility-list">
+                    <li>Distribution of ration to about 3,500 cardholders through a computerized billing system, complete with roofing and seating facilities.</li>
+                    <li>A separate delivery system ensures ration cardholders can receive their items on all days of the respective month.</li>
+                    <li>A program is organized annually to recognize and honor active senior members.</li>
+                    <li>Every year, students of the Co-operative Training Center who secure ranks are awarded by the Bank.</li>
+                    <li>Prize money of Rs. 750 is awarded to students in local schools who score the highest marks in Kannada and Hindi (7th to 10th class).</li>
+                    <li>An annual incentive subsidy of Rs. 2,000 is given to help mentally challenged children.</li>
+                    <li>In cases of national calamities (earthquakes, floods, Covid-19), the highest amount of donation is given to the Relief Funds.</li>
+                    <li>Rs. 10 lakh was provided for the renovation of the public cemetery under our jurisdiction at Moodbidiri.</li>
+                    <li>Financial assistance is collected and sent for religious programs (Renovation, Brahmakalasha, Mastakabhisheka, etc.).</li>
+                </ul>
+            </div>
+
+            <div class="facility-card teal">
+                <div class="card-header">
+                    <h2>Co-operative Sector & Staff Support</h2>
+                </div>
+                <ul class="facility-list">
+                    <li>Rs. 1,000 is provided to all Retired staff of the Bank. The pension fund is invested in LIC for direct pension disbursement to retired employees.</li>
+                    <li>A borewell was dug to provide a dedicated water system to the Cooperative Training Centre.</li>
+                    <li>Essay writing competitions are organized for Co-operative Training Centre and Dhavala College students.</li>
+                    <li>A dedicated program recognizes and honors well-functioning cooperative societies and their office bearers in the Dakshina Kannada district.</li>
+                    <li>The Sahakar Kalpavriksha Award has been given continuously for the past 6 years to those rendering excellent service in the co-operative sector.</li>
+                    <li>Quarterly celebrations are held to create awareness of cooperation among customers and make them more active.</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+</body>
+</html>

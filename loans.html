@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loans - MCS BANK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           MAIN LAYOUT
+        ----------------------------------- */
+        .layout-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 15px auto 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            flex-grow: 1;
+            max-height: 800px;
+        }
+
+        .sidebar {
+            width: 320px;
+            background-color: #fcfcfc;
+            border-right: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 4px; }
+
+        .sidebar-title {
+            padding: 30px 20px 15px 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            background-color: #fcfcfc;
+            z-index: 10;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #2c3e50;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .tab-button:hover { background-color: #f0f4f8; }
+
+        .tab-button.active {
+            background-color: #eaf2f8;
+            border-left: 4px solid #3498db;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .text-content { padding: 40px; }
+
+        .text-content h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        /* ── PDF-replica styles ── */
+        .part-heading {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0 0 12px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 20px 0 8px 0;
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin-bottom: 6px;
+        }
+
+        .doc-table th {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 9px 14px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #2c3e50;
+        }
+
+        .doc-table td {
+            padding: 8px 14px;
+            border: 1px solid #c8c8c8;
+            color: #222;
+            vertical-align: top;
+        }
+
+        .doc-table tbody tr:nth-child(even) td { background-color: #f5f5f5; }
+        .doc-table tbody tr:hover td { background-color: #eaf2f8; }
+
+        .loans-table td:first-child { width: 42px; text-align: center; font-weight: 600; color: #2c3e50; }
+        .loans-table td:last-child { width: 160px; font-weight: 600; color: #1a5276; white-space: nowrap; }
+
+        .loans-table tr.group-header td {
+            background-color: #d6eaf8 !important;
+            font-weight: 700;
+            color: #154360;
+            padding-top: 10px;
+            padding-bottom: 4px;
+        }
+
+        .loans-table tr.sub-row td:nth-child(2) { padding-left: 28px; color: #444; }
+
+        .doc-note { font-size: 12.5px; color: #666; margin-top: 6px; margin-bottom: 16px; font-style: italic; }
+
+        .provisions-list { list-style: none; padding: 0; margin: 0; }
+        .provisions-list li {
+            font-size: 13.5px;
+            color: #222;
+            padding: 9px 14px 9px 36px;
+            border: 1px solid #c8c8c8;
+            border-top: none;
+            position: relative;
+            line-height: 1.6;
+        }
+        .provisions-list li:first-child { border-top: 1px solid #c8c8c8; }
+        .provisions-list li:nth-child(even) { background-color: #f5f5f5; }
+        .provisions-list li::before {
+            content: attr(data-num) ".";
+            position: absolute;
+            left: 14px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .inline-highlight { font-weight: 700; color: #c0392b; }
+        
+        .info-paragraph {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .layout-wrapper { flex-direction: column; margin: 15px 20px 40px 20px; width: auto; max-height: none; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #eaeaea; flex-direction: row; overflow-x: auto; white-space: nowrap; max-height: none; }
+            .sidebar-title { display: none; }
+            .tab-button { border-left: none; border-bottom: 4px solid transparent; padding: 15px 20px; }
+            .tab-button.active { border-left: none; border-bottom: 4px solid #3498db; }
+            .text-content { padding: 25px; }
+            .text-content h2 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Loans</span>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-title">Loan Schemes</div>
+            <button class="tab-button active" onclick="loadLoanData('rate', this)">Rate of interest on loans</button>
+            <button class="tab-button" onclick="loadLoanData('types', this)">Types of Loans</button>
+        </aside>
+
+        <main class="main-content">
+            <article class="text-content fade-in" id="display-text">
+                <h2 id="display-title"></h2>
+                <div id="display-paragraphs"></div>
+            </article>
+        </main>
+    </div>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        const loanDatabase = {
+            rate: {
+                title: "Loan Interest Rates",
+                paragraphs: `
+                    <div class="part-heading">Interest Rates on Loans</div>
+                    <p class="doc-note" style="margin-top:-8px;">(Applicable from 08/06/2021) &nbsp;(BMR 24/21-22)</p>
+
+                    <table class="doc-table loans-table">
+                        <thead>
+                            <tr>
+                                <th style="width:42px;">Sl. No.</th>
+                                <th>Loan Type &amp; Description</th>
+                                <th style="width:160px;">Interest Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Short-term loan for agricultural purposes (under government scheme)</td><td>0%</td></tr>
+                            <tr><td>2</td><td>Medium-term loan for agricultural purposes (under government scheme)</td><td>3%</td></tr>
+                            <tr><td>3</td><td>Purchase loan for Power Tiller, Tractor/Crop harvester, Arecanut peeling machine</td><td>3%</td></tr>
+
+                            <tr class="group-header">
+                                <td>4</td>
+                                <td>Residential House Construction Loan:</td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-row"><td></td><td>Up to Rs. 5,00,000/-</td><td>10%</td></tr>
+                            <tr class="sub-row"><td></td><td>From Rs. 5 Lakh to Rs. 25 Lakh</td><td>11%</td></tr>
+
+                            <tr class="group-header">
+                                <td>5</td>
+                                <td>House Repair/Renovation Loan:</td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-row"><td></td><td>Up to Rs. 5,00,000/-</td><td>11%</td></tr>
+                            <tr class="sub-row"><td></td><td>Above Rs. 5,00,000/- and up to 15 Lakh</td><td>12%</td></tr>
+
+                            <tr class="group-header">
+                                <td>6</td>
+                                <td>Vehicle Purchase Loan:</td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-row"><td></td><td>For old vehicle purchase (models within 5 years)</td><td>13%</td></tr>
+                            <tr class="sub-row"><td></td><td>For new vehicle purchase (repayment period within 5 years)</td><td>10%</td></tr>
+
+                            <tr><td>7</td><td>Education Loan (Excluding hostel charges, donation, and book charges)</td><td>10%</td></tr>
+                            <tr><td>8</td><td>Short-term credit loan for small businessmen</td><td>11%</td></tr>
+                            <tr><td>9</td><td>Home Appliance Purchase Loan</td><td>12%</td></tr>
+                            <tr><td>10</td><td>Loan for other purposes</td><td>12%</td></tr>
+                            <tr><td>11</td><td>Marriage Loan</td><td>12%</td></tr>
+                            <tr><td>12</td><td>Gold Pledge Loan (for a 1-year period)</td><td>10%</td></tr>
+                            <tr><td>13</td><td>Agricultural Land Purchase Loan</td><td>11%</td></tr>
+
+                            <tr class="group-header">
+                                <td>14</td>
+                                <td>Land Mortgage Loan:</td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-row"><td></td><td>Up to 5 Lakh</td><td>12%</td></tr>
+                            <tr class="sub-row"><td></td><td>Above 5 Lakh</td><td>13%</td></tr>
+
+                            <tr><td>15</td><td>National Savings Certificate (NSC) / Life Insurance Policy Mortgage Loan</td><td>13%</td></tr>
+                            <tr><td>16</td><td>Loan against Deposit</td><td>1% more than deposit rate</td></tr>
+                            <tr><td>17</td><td>Loan for undertaking self-employment / Small scale industry</td><td>12%</td></tr>
+                            <tr><td>18</td><td>Personal Loan for salaried employees</td><td>12%</td></tr>
+                            <tr><td>19</td><td>Commercial Complex Construction Loan</td><td>13%</td></tr>
+
+                            <tr class="group-header">
+                                <td>20</td>
+                                <td>House Site Purchase Loan:</td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-row"><td></td><td>Up to Rs. 5,00,000/-</td><td>12%</td></tr>
+                            <tr class="sub-row"><td></td><td>Above Rs. 5,00,000/-</td><td>13%</td></tr>
+
+                            <tr><td>21</td><td>Surety Loan (Maximum Rs. 5000/- per person)</td><td>11%</td></tr>
+                            <tr><td>22</td><td>Solar Light/Heater/Gobar Gas Loan</td><td>5%</td></tr>
+                            <tr><td>23</td><td>Short-term credit (Gold Ornaments) Loan (1-year period)</td><td>10%</td></tr>
+                            <tr><td>24</td><td>Short-term credit (Based on Deposit) Loan</td><td>1% more than deposit rate</td></tr>
+                            <tr><td>25</td><td>Emergency Loan for businessmen for Rs. 50,000/- (1-year period)</td><td>11%</td></tr>
+                            <tr><td>26</td><td>Loan against agricultural produce for farmers (for a 6-month period)</td><td>10%</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="section-label" style="margin-top:24px;">Special Provisions and Penalties</div>
+                    <ul class="provisions-list">
+                        <li data-num="1">Zero interest <span class="inline-highlight">(0%)</span> for farmer members purchasing a Power Tiller, Tractor, Arecanut peeling machine, Crop harvesting machine, etc.</li>
+                        <li data-num="2">For installing a Solar Water Heater, Solar Light, Solar grid utilization for industries, and for own-use solar installation (Maximum Rs. 5,00,000/-): <span class="inline-highlight">5%</span></li>
+                        <li data-num="3">Education Loan for students (Excluding donation and hostel charges): <span class="inline-highlight">10%</span></li>
+                        <li data-num="4">If the loan is not repaid strictly within the due date, a <span class="inline-highlight">2% penal interest</span> will be charged.</li>
+                    </ul>
+                `
+            },
+            types: {
+                title: "Types of Loans",
+                paragraphs: `
+                    <div class="part-heading">Loan Schemes & Tenures</div>
+                    <table class="doc-table loans-table">
+                        <thead>
+                            <tr>
+                                <th style="width:42px;">Sl. No.</th>
+                                <th>Loan Type &amp; Description</th>
+                                <th style="width:160px;">Tenure</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><b>MTAP (Medium Term Agricultural Purpose)</b><br>Loans provided to supplement agricultural development. Examples include well construction, well repair, land leveling, compound wall construction, installing irrigation pipelines, and manure pit construction.</td>
+                                <td>5 years</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><b>LTAP (Long Term Agricultural Purpose)</b><br>Agricultural development loan - Long-term financial support.</td>
+                                <td>5 to 8 years (Max)</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><b>Housing Loan</b><br>Financial assistance for house construction.</td>
+                                <td>5 to 10 years</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><b>Vehicle Loan</b><br>Loans facilitating the purchase of vehicles.</td>
+                                <td>3 to 5 years</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><b>Consumable Loan</b><br>Loans for purchasing household appliances such as refrigerators, televisions, etc.</td>
+                                <td>2 to 3 years (Max)</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><b>Marriage Loan</b><br>Financial support specifically for the marriage of a member's daughter.</td>
+                                <td>1 to 3 years</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><b>Education Loan</b><br>Education loans to support the higher education of member's children.</td>
+                                <td>5 to 10 years (Max)</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><b>Solar Loan</b><br>Loans allocated for solar projects, including water heaters, lighting, grills, and industrial solar use.</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><b>Business Loan</b><br>Capital assistance for business-related purposes and expansion.</td>
+                                <td>3 to 5 years</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td><b>Jewel Loan</b><br>Short-term loans issued against gold jewelry collateral.</td>
+                                <td>1 to 2 years</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td><b>CCL Loan (Cash Credit Loan)</b><br>Working capital or cash credit loan designed for small business owners.</td>
+                                <td>1 year</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            }
+        };
+
+        function loadLoanData(loanType, clickedElement) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            clickedElement.classList.add('active');
+
+            const data = loanDatabase[loanType];
+            const titleEl = document.getElementById('display-title');
+            const parasEl = document.getElementById('display-paragraphs');
+            const textContainer = document.getElementById('display-text');
+
+            textContainer.classList.remove('fade-in');
+
+            setTimeout(() => {
+                titleEl.textContent = data.title;
+                parasEl.innerHTML = data.paragraphs;
+                textContainer.classList.add('fade-in');
+            }, 10);
+        }
+
+        loadLoanData('rate', document.querySelector('.tab-button'));
+    </script>
+
+</body>
+</html>

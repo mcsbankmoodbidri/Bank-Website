@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           PAGE LAYOUT
+        ----------------------------------- */
+        .page-container {
+            max-width: 1200px;
+            margin: 15px auto 80px auto; 
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Section: Split Layout */
+        .admin-content-split {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* LEFT SIDE: Scrolling Admin List */
+        .admin-list-wrapper {
+            flex: 1.15; 
+            display: flex;
+            flex-direction: column;
+            gap: 15px; 
+            min-width: 0; 
+        }
+
+        .admin-card {
+            display: flex;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 15px; 
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: transform 0.2s ease;
+            align-items: center;
+            overflow: hidden; 
+        }
+
+        .admin-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .admin-photo {
+            width: 110px;
+            height: 140px;
+            border-radius: 8px;
+            object-fit: cover;
+            object-position: top center;
+            background-color: transparent;
+            flex-shrink: 0;
+        }
+
+        .admin-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .admin-info h3 {
+            color: #2c3e50;
+            font-size: 17px; 
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-info h3 i {
+            font-weight: 500;
+            color: #555; 
+        }
+
+        .admin-info .designation {
+            color: #3498db;
+            font-weight: 600;
+            font-size: 13px; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* MIDDLE: The Vertical Divider */
+        .vertical-divider {
+            width: 2px;
+            background-color: #dfe6e9;
+            border-radius: 2px;
+        }
+
+        /* RIGHT SIDE: Sticky Vertical Image */
+        .admin-feature-wrapper {
+            flex: 1; 
+        }
+
+        .sticky-image-container {
+            position: sticky;
+            top: 120px; 
+            height: calc(100vh - 180px); 
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .sticky-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ----------------------------------
+           JEMS SECTION & PAST PRESIDENTS
+        ----------------------------------- */
+        
+        .section-divider {
+            border: none;
+            border-top: 2px solid #dfe6e9;
+            margin: 60px 0 50px 0;
+            width: 100%;
+        }
+
+        .past-presidents-section, .jems-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .presidents-heading {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: underline;
+            text-decoration-color: #3498db;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 8px;
+        }
+
+        /* Reusable large image class for Presidents and Jems */
+        .main-president-img {
+            width: 280px;
+            height: 350px;
+            object-fit: contain; 
+            border-radius: 12px;
+            background-color: transparent; 
+            margin-bottom: 50px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+        }
+
+        /* Jems specific layout */
+        .jems-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Container for the image + name */
+        .gem-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* Space between image and text */
+        }
+
+        .jems-grid .main-president-img {
+            margin-bottom: 0; /* Overrides bottom margin since we use gap */
+        }
+
+        .gem-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* Past Presidents Grid */
+        .presidents-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .grid-president-img {
+            /* Calculates exactly 4 items per row factoring in the 30px gap */
+            width: calc(25% - 22.5px); 
+            height: 280px;
+            object-fit: contain; 
+            border-radius: 10px;
+            background-color: transparent; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-president-img:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 950px) {
+            .breadcrumb-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .admin-content-split {
+                flex-direction: column-reverse; 
+            }
+            .vertical-divider {
+                display: none; 
+            }
+            .sticky-image-container {
+                position: relative;
+                top: 0;
+                height: 350px; 
+            }
+            .admin-card {
+                flex-direction: row; 
+                text-align: left;
+            }
+            .admin-info h3 {
+                white-space: normal;
+            }
+            .grid-president-img {
+                /* Calculates 2 items per row on tablets/mobile */
+                width: calc(50% - 15px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-container {
+                padding: 0 20px;
+            }
+            .admin-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .main-president-img {
+                width: 100%;
+                max-width: 280px;
+                height: 320px;
+            }
+            .grid-president-img {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Administration</span>
+    </div>
+
+    <main class="page-container">
+        
+        <div class="admin-content-split">
+            
+            <div class="admin-list-wrapper" id="admin-directory">
+            </div>
+
+            <div class="vertical-divider"></div>
+
+            <div class="admin-feature-wrapper">
+                <div class="sticky-image-container">
+                    <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80" alt="Administration and Boardroom">
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="jems-section">
+            <h2 class="presidents-heading">GEMS OF MCS BANK</h2>
+            
+            <div class="jems-grid">
+                
+                <div class="gem-card">
+                    <img src="images/gems/1.webp" alt="Jem of MCS Bank 1" class="main-president-img" onerror="this.src='https://via.placeholder.com/280x350?text=Jem+1'">
+                    <div class="gem-name">Sri. K Amarnath Shetty</div>
+                </div>
+
+                <div class="gem-card">
+                    <img src="images/gems/2.webp" alt="Jem of MCS Bank 2" class="main-president-img" onerror="this.src='https://via.placeholder.com/280x350?text=Jem+2'">
+                    <div class="gem-name">Sri. Panduranga Mallya</div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="past-presidents-section">
+            <h2 class="presidents-heading">PAST PRESIDENTS</h2>
+            
+            <img src="./images/past_presidents/1.webp" alt="Past President 1" class="main-president-img" onerror="this.src='https://via.placeholder.com/280x350?text=President+1'">
+
+            <div class="presidents-grid">
+                <img src="./images/past_presidents/2.webp" alt="Past President 2" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+2'">
+                <img src="./images/past_presidents/3.webp" alt="Past President 3" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+3'">
+                <img src="./images/past_presidents/4.webp" alt="Past President 4" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+4'">
+                <img src="./images/past_presidents/5.webp" alt="Past President 5" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+5'">
+                
+                <img src="./images/past_presidents/6.webp" alt="Past President 6" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+6'">
+                <img src="./images/past_presidents/7.webp" alt="Past President 7" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+7'">
+                <img src="./images/past_presidents/8.webp" alt="Past President 8" class="grid-president-img" onerror="this.src='https://via.placeholder.com/250x280?text=President+8'">
+            </div>
+        </div>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        const directoryContainer = document.getElementById('admin-directory');
+
+        const adminData = [
+            { name: "<i>Sahakari Ratna</i> Sri. M Bahubali Prasad", role: "President" },
+            { name: "Sri. M Ganesh Nayak", role: "Vice-President" },
+            { name: "Sri. K Abhayachandra Jain", role: "Director" },
+            { name: "Sri. George Monis", role: "Director" },
+            { name: "Sri. Manoj Shetty", role: "Director" },
+            { name: "Sri. C H Abdul Gafoor", role: "Director" },
+            { name: "Sri. M P Ashok Kamath", role: "Director" },
+            { name: "Sri. M Jnaneshwara Kalinga Pai", role: "Director" },
+            { name: "Sri. M Jayaram Kotian", role: "Director" },
+            { name: "Sri. M Padmanabha", role: "Director" },
+            { name: "Smt. Prema S Salian", role: "Director" },
+            { name: "Smt. Anita P Shetty", role: "Director" },
+            { name: "Chandrashekar M", role: "Special Chief Executive Officer" },
+            { name: "Sudarshan Bhat", role: "Chief Executive Officer" }
+        ];
+
+        // Loop through the data array to create the cards for the top section
+        adminData.forEach((admin, index) => {
+            const photoUrl = `images/administration/${index + 1}.jpeg`;
+
+            const cardHTML = `
+                <div class="admin-card">
+                    <img src="${photoUrl}" alt="Board Member" class="admin-photo" onerror="this.src='https://via.placeholder.com/110x140?text=No+Image'">
+                    <div class="admin-info">
+                        <h3>${admin.name}</h3>
+                        <div class="designation">${admin.role}</div>
+                    </div>
+                </div>
+            `;
+            
+            directoryContainer.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    </script>
+</body>
+</html>

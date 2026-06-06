@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awards & Recognitions - MCS BANK</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 600px; /* Matching the wrapper width */
+            margin: 30px auto 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------
+           COMPACT AWARDS FEED LAYOUT
+        ----------------------------------- */
+        .awards-page-wrapper {
+            width: 100%;
+            max-width: 600px; 
+            margin: 15px auto 60px auto; /* Reduced top margin to account for breadcrumb */
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        /* Individual Award Card */
+        .award-article {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .award-article:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        /* The Smaller Image */
+        .award-image {
+            width: 100%;
+            height: 250px; 
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Single Line Content Area */
+        .award-content {
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .award-description {
+            color: #2c3e50;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            /* Ensures it stays as a clean single line */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .breadcrumb-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .award-image {
+                height: 200px; 
+            }
+            .award-description {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Awards</span>
+    </div>
+
+    <main class="awards-page-wrapper">
+
+        <article class="award-article">
+            <img src="https://images.unsplash.com/photo-1595246140590-761b0c0f865f?auto=format&fit=crop&w=800&q=80" alt="Best Farmer Award" class="award-image">
+            <div class="award-content">
+                <p class="award-description">Honoring the 4 best farmers in our district for their outstanding agricultural contributions.</p>
+            </div>
+        </article>
+
+        <article class="award-article">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Student Merit Award" class="award-image">
+            <div class="award-content">
+                <p class="award-description">Merit awards distributed to top-ranking students from the Co-operative Training Center.</p>
+            </div>
+        </article>
+
+        <article class="award-article">
+            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80" alt="Senior Member Felicitation" class="award-image">
+            <div class="award-content">
+                <p class="award-description">Felicitation ceremony recognizing our most active and dedicated senior bank members.</p>
+            </div>
+        </article>
+        
+        <article class="award-article">
+            <img src="https://images.unsplash.com/photo-1578269174936-2709b6aeb913?auto=format&fit=crop&w=800&q=80" alt="School Prize Money" class="award-image">
+            <div class="award-content">
+                <p class="award-description">Special prize money awarded to high-scoring students in local district schools.</p>
+            </div>
+        </article>
+        
+        <article class="award-article">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" alt="Co-operative Excellence" class="award-image">
+            <div class="award-content">
+                <p class="award-description">Recognizing well-functioning cooperative societies in the Dakshina Kannada district.</p>
+            </div>
+        </article>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+</body>
+</html>

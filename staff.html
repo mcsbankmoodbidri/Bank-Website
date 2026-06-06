@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodbidri Co-operative Service Bank Ltd - Staff Details</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* ----------------------------------
+           BREADCRUMB / PAGE TITLE BAR
+        ----------------------------------- */
+        .breadcrumb-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breadcrumb-home {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb-home:hover {
+            color: #3498db;
+        }
+
+        .breadcrumb-separator {
+            color: #bdc3c7;
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: #2c3e50;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Page Layout */
+        .staff-page-container {
+            max-width: 1200px;
+            margin: 15px auto 80px auto; /* Adjusted top margin for breadcrumb */
+            padding: 0 40px;
+            display: flex;
+            gap: 40px;
+        }
+
+        /* LEFT SIDE: Scrolling Staff List */
+        .staff-list-wrapper {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .staff-card {
+            display: flex;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            gap: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: transform 0.2s ease;
+            align-items: center;
+        }
+
+        .staff-card:hover {
+            transform: translateX(5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .staff-photo {
+            width: 110px;
+            height: 140px;
+            border-radius: 8px;
+            object-fit: cover;
+            object-position: top center;
+            background-color: #eaeaea;
+            flex-shrink: 0;
+        }
+
+        .staff-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .staff-info h3 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .staff-info .designation {
+            color: #3498db;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* MIDDLE: The Vertical Divider */
+        .page-divider {
+            width: 2px;
+            background-color: #dfe6e9;
+            border-radius: 2px;
+        }
+
+        /* RIGHT SIDE: Sticky Vertical Slider */
+        .staff-feature-wrapper {
+            flex: 1.5; 
+        }
+
+        .sticky-image-container {
+            position: sticky;
+            top: 120px; 
+            height: calc(100vh - 180px); 
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Slider CSS */
+        .staff-slider {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease-in-out; 
+        }
+
+        .staff-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .staff-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 900px) {
+            .breadcrumb-container {
+                padding: 0 20px;
+                margin-top: 25px;
+            }
+            .staff-page-container {
+                flex-direction: column-reverse; 
+                padding: 0 20px;
+                gap: 30px;
+            }
+            .page-divider {
+                display: none; 
+            }
+            .sticky-image-container {
+                position: relative;
+                top: 0;
+                height: 300px; 
+            }
+            .staff-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
+        <span class="breadcrumb-separator">❯</span>
+        <span class="breadcrumb-current">Staff</span>
+    </div>
+
+    <main class="staff-page-container">
+        
+        <div class="staff-list-wrapper" id="staff-directory">
+        </div>
+
+        <div class="page-divider"></div>
+
+        <div class="staff-feature-wrapper">
+            <div class="sticky-image-container">
+                <div class="staff-slider" id="staffSlider">
+                    <div class="staff-slide"><img src="./images/staff_main/1.webp" alt="Staff Office 1" onerror="this.src='https://via.placeholder.com/800x1200?text=Image+1'"></div>
+                    <div class="staff-slide"><img src="./images/staff_main/2.webp" alt="Staff Office 2" onerror="this.src='https://via.placeholder.com/800x1200?text=Image+2'"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+
+    <script>
+        const directoryContainer = document.getElementById('staff-directory');
+
+        const staffData = [
+            { name: "Chandrashekar M", role: "Special Chief Executive Officer" },
+            { name: "Sudarshan Bhat", role: "Chief Executive Officer" },
+            { name: "Sujata", role: "Assistant Secretary" },
+            { name: "Herald Tauro", role: "Cashier" },
+            { name: "Ashalatha", role: "Clerk" },
+            { name: "Bhaskar D Sanil", role: "Clerk | Computer Technician" },
+            { name: "Vasudeva Bhat", role: "Clerk" },
+            { name: "Manjunath S", role: "Clerk" },
+            { name: "Santhosh Naik", role: "Clerk" },
+            { name: "Ranjith T", role: "Clerk" },
+            { name: "Reshma Bhat", role: "Clerk" },
+            { name: "Sudarshan", role: "Clerk" },
+            { name: "Swarajpal", role: "Clerk" },
+            { name: "Prajwal", role: "Computer Assistant" },
+            { name: "Chaitakshi", role: "Computer Assistant" },
+            { name: "Nagesh", role: "Sales Assistant" },
+            { name: "Santhosh M", role: "Sales Assistant" },
+            { name: "Aruna", role: "Assistant" },
+            { name: "Shekara Devadiga", role: "Assistant" },
+            { name: "Suresh Acharya", role: "Jewel Appraiser" },
+            { name: "Ganesh Nayak", role: "Pigmy Collectors | Assistant" },
+            { name: "Krishnanad Kamath K", role: "Pigmy Collectors | Assistant" },
+            { name: "Vivekananda Prabhu", role: "Pigmy Collectors | Assistant" },
+            { name: "Ganesh Bhandary", role: "Security" },
+            { name: "Kusuma", role: "Helper | Assistant" }
+        ];
+
+        staffData.forEach((staff, index) => {
+            const photoUrl = `images/staff/${index + 1}.jpg`;
+
+            const cardHTML = `
+                <div class="staff-card">
+                    <img src="${photoUrl}" alt="${staff.name}" class="staff-photo" onerror="this.src='https://via.placeholder.com/110x140?text=No+Image'">
+                    <div class="staff-info">
+                        <h3>${staff.name}</h3>
+                        <div class="designation">${staff.role}</div>
+                    </div>
+                </div>
+            `;
+            
+            directoryContainer.insertAdjacentHTML('beforeend', cardHTML);
+        });
+
+        // --- Automatic Slider Logic ---
+        const staffSlider = document.getElementById('staffSlider');
+        let currentSlide = 0;
+        const totalSlides = 2; 
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            staffSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }, 4000);
+    </script>
+
+</body>
+</html>
