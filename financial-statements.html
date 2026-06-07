@@ -238,8 +238,15 @@
             .text-content h2 {
                 font-size: 26px;
             }
+            
+            /* UPDATED: Mobile scrolling fix for data tables */
             .data-table {
                 font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap; 
+                -webkit-overflow-scrolling: touch; 
+                width: 100%;
             }
         }
     </style>
